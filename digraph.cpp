@@ -5,22 +5,22 @@
 #include<queue>
 #include<limits>
 
-#define LONGMAX 99999L
+#define LONGMAX std::numeric_limits<long long>::max()
 
 using namespace std;
 
 struct AdjNode {
-    long weight;
+    double weight;
     int vtx;
     struct AdjNode* next;
 
     AdjNode() {
-        weight=(long)LONGMAX;
+        weight=(double)LONGMAX;
         vtx=-1;
         next=NULL;
     }
 
-    AdjNode(int vert, long wt) {
+    AdjNode(int vert, double wt) {
         weight=wt;
         vtx=vert;
         next=NULL;
@@ -41,7 +41,7 @@ private:
     //members for shortest_path lookup
     char *known;
     int *pred;
-    long *cost;
+    double *cost;
 
 public:
     Graph() { 
@@ -64,9 +64,9 @@ public:
         }
 
         //Initialize shortest_path lookup members
-        known = new char(V);
-        pred = new int(V);
-        cost = new long(V);
+        known = new char[V];
+        pred = new int[V];
+        cost = new double[V];
         for(int i=0;i<V;i++) {
             cost[i]=99999L;
             pred[i]=-1;
@@ -94,7 +94,7 @@ public:
     bool isweighted() { return weighted; }
     bool isdirected() { return directed; }
 
-    void add_edge(int src, int tgt, long weight) {
+    void add_edge(int src, int tgt, double weight) {
         AdjNode *nd = alist[src].head;
         if(alist[src].tail->weight <= weight) {
             alist[src].tail->next=new AdjNode(tgt,weight);
@@ -117,7 +117,7 @@ public:
         bool found = false;
         AdjNode *nd = NULL;
         ndQueue.push(src);
-        char *visited = new char(this->V);
+        char *visited = new char[this->V];
         memset(visited, 0, this->V);
         pred[src]=-1;
         while(!ndQueue.empty() && !found) {
@@ -141,11 +141,9 @@ public:
         return found;
     }
 
-    void DFS(AdjNode *nd, long runcost) {
-        cout<<"\nDFS:"<<nd->vtx<<"runcost("<<runcost<<")"<<endl;
+    void DFS(AdjNode *nd, double runcost) {
         AdjNode *t = nd->next;
         while(t) {
-            cout<<"t:"<<t->vtx<<"("<<cost[t->vtx]<<")-->"<<(runcost+t->weight);
             if(cost[t->vtx] > (runcost+t->weight)) {
                 cost[t->vtx] = runcost+t->weight;
                 known[t->vtx] = 1;
@@ -153,24 +151,22 @@ public:
                 DFS(alist[t->vtx].head, runcost+t->weight);
             }
             t=t->next;
-            cout<<endl<<"---------------"<<endl;
         }
-        cout<<endl<<"+++++++++++++++++++"<<endl;
     }
 
     void print_route(int src, int dest) {
         int ind=dest;
         string route;
-        char element[4]={0};
-        route=to_string(dest);
-        cout<<"print_route:"<<endl;
+        char element[8]={0};
+        route=to_string((long long)dest);
+        cout<<"route:"<<endl;
         ind=pred[ind];
         while(ind != src) {
-            snprintf(element, 4, "%d->", ind);
+            snprintf(element, 8, "%d->", ind);
             route=element+route;
             ind=pred[ind];
         }
-        snprintf(element, 4, "%d->", ind);
+        snprintf(element, 8, "%d->", ind);
         route=element+route;
 
         cout<<"\t"<<route<<endl;
@@ -180,11 +176,11 @@ public:
         cost[src]=0;
         known[src]=1;
         pred[src]=-1;
-        cout<<"alist[src].head:"<<alist[src].head->vtx<<"("<<cost[src]<<")"<<endl;
         DFS(alist[src].head, cost[src]);
         //stack<int> route;
         if(known[dest]) {
-            cout<<"Shorted path cost from "<<src<<" to "<<dest<<": "<<cost[dest]<<endl;
+            cout<<"DFS:"<<src<<" and "<<dest<<" are connected"<<endl;
+            cout<<"Shortest path cost from "<<src<<" to "<<dest<<": "<<cost[dest]<<endl;
             print_route(src, dest);
         }
         else
@@ -211,7 +207,7 @@ public:
 void create_graph_from_file(Graph &G, ifstream &ifs ) {
 
     int v1,v2;
-    long wt;
+    double wt;
     int counter=0;
     ifs>>counter;
     while(ifs.good() && counter) {
@@ -255,13 +251,14 @@ int main() {
     g.print();
 
     ifs>>v1>>v2;
-    cout<<"start and end vertices for BFS:"<<v1<<" "<<v2<<endl;
+    cout<<"start and end vertices for BFS:"<<v1<<" "<<v2<<endl<<endl;
     if(g.BFS(v1, v2)) {
         cout<<"BFS:"<<v1<<" and "<<v2<<" are connected"<<endl;
         g.print_route(v1, v2);
     }
     else
         cout<<v1<<" and "<<v2<<" are not connected"<<endl;
+    cout<<endl<<endl;
     g.shortest_path(v1, v2);
     return 0;
 }
