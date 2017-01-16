@@ -112,6 +112,9 @@ public:
         E++;
     }
 
+    /*
+     * Breadth first search implementation
+     */
     bool BFS(int src, int dest) {
         queue<int> ndQueue;
         bool found = false;
@@ -141,6 +144,9 @@ public:
         return found;
     }
 
+    /*
+     * Depth first search implmentation
+     */
     void DFS(AdjNode *nd, double runcost) {
         AdjNode *t = nd->next;
         while(t) {
@@ -156,9 +162,9 @@ public:
 
     void print_route(int src, int dest) {
         int ind=dest;
-        string route;
         char element[8]={0};
-        route=to_string((long long)dest);
+        snprintf(element, 8, "%d", dest);
+        string route = element;
         cout<<"route:"<<endl;
         ind=pred[ind];
         while(ind != src) {
@@ -172,6 +178,9 @@ public:
         cout<<"\t"<<route<<endl;
     }
 
+    /*
+     * Find shortest path from src to dest using Depth first search technique
+     */
     void shortest_path(int src, int dest) {
         cost[src]=0;
         known[src]=1;

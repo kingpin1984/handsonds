@@ -8,6 +8,7 @@ CFLAGS= -g -Wall -Werror
 OUT_CBSTEXE= bstops
 OUT_BSTEXE= bsttrav
 OUT_BIGINTEXE= bigint_test
+OUT_DIGRAPHEXE= graph_test
 CC= gcc
 CPPC= g++
 INCLUDES= $(CURDIR)/mylib
@@ -17,6 +18,7 @@ SHELL=/bin/bash
 BST_CSOURCES=BST_ops.c
 BST_CPPSOURCES=BST_traversal.cpp
 BIGINT_SOURCES=bigint_use.cpp
+DIGRAPH_SOURCES=digraph.cpp
 
 SUBDIRS := $(wildcard */.)
 
@@ -25,6 +27,7 @@ all : $(SUBDIRS) $(SOURCES)
 	$(CC) $(CFLAGS) -o $(OUT_CBSTEXE) $(BST_CSOURCES) -I$(INCLUDES) -L$(LIBDIRS) $(LIBS)
 	$(CPPC) $(CFLAGS) -o $(OUT_BSTEXE) $(BST_CPPSOURCES) -I$(INCLUDES) -L$(LIBDIRS) $(LIBS)
 	$(CPPC) $(CFLAGS) -o $(OUT_BIGINTEXE) $(BIGINT_SOURCES) -I$(INCLUDES) -L$(LIBDIRS) $(LIBS)
+	$(CPPC) $(CFLAGS) -o $(OUT_DIGRAPHEXE) $(DIGRAPH_SOURCES) -I$(INCLUDES)
 
 $(SUBDIRS) :
 	$(MAKE) -C $@ all
@@ -34,7 +37,7 @@ DIRS := . $(shell find $(SUBDIR_ROOTS) -type d)
 GARBAGE_PATTERNS := *.o *~ core .depend .*.cmd *.so *.mod.c
 GARBAGE := $(foreach DIR,$(DIRS),$(addprefix $(DIR)/,$(GARBAGE_PATTERNS)))
 clean :
-	\rm -rf $(GARBAGE) $(OUT_CBSTEXE) $(OUT_BSTEXE) $(OUT_BIGINTEXE)
+	\rm -rf $(GARBAGE) $(OUT_CBSTEXE) $(OUT_BSTEXE) $(OUT_BIGINTEXE) $(OUT_DIGRAPHEXE)
 
 clobber : clean all
 #clean :
