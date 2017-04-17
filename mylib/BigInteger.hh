@@ -24,7 +24,8 @@ class BigInteger {
         BigInteger(BigInteger &val);
         ~BigInteger(){ };
         BigInteger& operator +(BigInteger &bi_add);
-        BigInteger& operator +(const int64_t &ll_add);
+        //BigInteger& operator +(const int64_t &ll_add);
+        friend BigInteger &operator +(const int64_t &ll_add, BigInteger &bi);
         BigInteger& operator +(const string &s_add);
         BigInteger& operator -(BigInteger &bi_add);
         BigInteger& operator -(const int64_t &ll_add);

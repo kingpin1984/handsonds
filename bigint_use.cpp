@@ -15,8 +15,14 @@ int main() {
     b2=b1+b2;
     cout<<"b2(after sum):"<<b2.tostring()<<endl;
     b1="999999999999999999999999999999999999";
-    cout<<"b1(assigned large string):"<<b1.tostring()<<endl;
-    b1=b1+1;
+    cout<<"b1(assigned large string): "<<b1.tostring()<<endl;
+    //b1=b1+1;
+    b1=1+b1;
+    cout<<"b1(after adding uint64_t):"<<b1.tostring()<<endl;
+    b2="999999999999999999999999999999999999";
+    //b2 = "111111111111111111111111111111111111";
+    cout<<"b2(assigned large string): "<<b2.tostring()<<endl;
+    b1=b1+b2;
     cout<<"b1(after adding uint64_t):"<<b1.tostring()<<endl;
     return 0;
 }

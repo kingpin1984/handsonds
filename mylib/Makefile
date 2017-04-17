@@ -9,10 +9,10 @@ LFLAGS= -shared -g
 OUT_EXE= libmyutils.so
 CC= gcc
 CPPC=g++
-CFILES= BST.c LinkList.c heapsort.c quicksort.c
+CFILES= BST.c LinkList.c heapsort.c quicksort.c Utils.c
 CPPFILES= BSTNode.cpp mergesort.cpp BigInteger.cpp
 
-OBJECTS:= BST.o LinkList.o heapsort.o quicksort.o
+OBJECTS:= BST.o LinkList.o heapsort.o quicksort.o Utils.o
 CPPOBJS:=BSTNode.o mergesort.o BigInteger.o
 
 all: $(OBJECTS) $(CPPOBJS)

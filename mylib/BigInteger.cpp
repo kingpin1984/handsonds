@@ -137,10 +137,11 @@ BigInteger &BigInteger::operator+(const string &s_add) {
     *this=*this+b_add;
     return *this;
 }
-BigInteger &BigInteger::operator+(const int64_t &ll_add) {
-    BigInteger b_add(ll_add);
-    *this=*this+b_add;
-    return *this;
+//BigInteger &BigInteger::operator+(const int64_t &ll_add) {
+BigInteger &operator+(const int64_t &ll_add, BigInteger &bi) {
+    BigInteger *sum = new BigInteger(ll_add);
+    *sum=(*sum) + bi;
+    return *sum;
 }
 
 BigInteger &BigInteger::operator-(BigInteger &bi_add) {
