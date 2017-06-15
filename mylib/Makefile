@@ -10,10 +10,10 @@ OUT_EXE= libmyutils.so
 CC= gcc
 CPPC=g++
 CFILES= BST.c LinkList.c heapsort.c quicksort.c Utils.c
-CPPFILES= BSTNode.cpp mergesort.cpp BigInteger.cpp
+CPPFILES= BSTNode.cpp mergesort.cpp BigInteger.cpp pqueue.cpp
 
 OBJECTS:= BST.o LinkList.o heapsort.o quicksort.o Utils.o
-CPPOBJS:=BSTNode.o mergesort.o BigInteger.o
+CPPOBJS:=BSTNode.o mergesort.o BigInteger.o pqueue.o
 
 all: $(OBJECTS) $(CPPOBJS)
 	$(CPPC) $(LFLAGS) -o $(OUT_EXE) $(OBJECTS) $(CPPOBJS)

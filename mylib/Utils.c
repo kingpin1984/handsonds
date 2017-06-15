@@ -6,10 +6,12 @@
 long alloc_intarr(int *arr, long sz, int mod) {
     int i=0;
     srand(time(0));
-    mod = (mod==0)?1:mod;
     
     for(i=0;i<sz;i++) {
-        arr[i]=rand()%mod;
+        if(mod)
+            arr[i]=rand()%mod;
+        else
+            arr[i]=rand();
     }
     return sz;
 }

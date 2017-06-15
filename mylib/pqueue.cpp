@@ -26,22 +26,56 @@ void PQ::siftup(unsigned ind) {
     unsigned parent;
     if(ind == 0) return;
     parent = (ind%2)?ind/2:(ind/2-1);
-    unsigned maxc = (ind%2)?ind:((compare(Q[ind-1], Q[ind])<=0)?(ind-1):ind);
-    if(compare(Q[parent], Q[maxc])>0) {
-        void *tmp = Q[parent];
-        Q[parent] = Q[maxc];
-        Q[maxc] = tmp;
-        siftup(parent);
+    unsigned prefChild;
+    if(heapType == MINHEAP) {
+        prefChild = (ind%2)?ind:((compare(Q[ind-1], Q[ind])<0)?(ind-1):ind);
+        if(compare(Q[parent], Q[prefChild])>=0) {
+            void *tmp = Q[parent];
+            Q[parent] = Q[prefChild];
+            Q[prefChild] = tmp;
+            siftup(parent);
+        }
+    } else {
+        prefChild = (ind%2)?ind:((compare(Q[ind-1], Q[ind])>0)?(ind-1):ind);
+        if(compare(Q[parent], Q[prefChild])<=0) {
+            void *tmp = Q[parent];
+            Q[parent] = Q[prefChild];
+            Q[prefChild] = tmp;
+            siftup(parent);
+        }
     }
 }
+
 void PQ::siftdown(unsigned ind, unsigned tail) {
     unsigned lc=ind*2+1, rc=ind*2+2;
     if(lc>tail || lc == ind) return;
-    unsigned maxc = (rc>tail)?lc:((compare(Q[lc], Q[rc])<=0)?lc:rc);
-    if(compare(Q[ind], Q[maxc])>0) {
-        void *tmp = Q[ind];
-        Q[ind] = Q[maxc];
-        Q[maxc] = tmp;
-        siftdown(maxc, tail);
+    unsigned prefChild;
+
+    if(heapType == MINHEAP) {
+        prefChild = (rc>tail)?lc:((compare(Q[lc], Q[rc])<0)?lc:rc);
+        if(compare(Q[ind], Q[prefChild])>=0) {
+            void *tmp = Q[ind];
+            Q[ind] = Q[prefChild];
+            Q[prefChild] = tmp;
+            siftdown(prefChild, tail);
+        }
+    } else {
+        prefChild = (rc>tail)?lc:((compare(Q[lc], Q[rc])>0)?lc:rc);
+        if(compare(Q[ind], Q[prefChild])<=0) {
+            void *tmp = Q[ind];
+            Q[ind] = Q[prefChild];
+            Q[prefChild] = tmp;
+            siftdown(prefChild, tail);
+        }
     }
+}
+
+void PQ::set_HeapType(char type) {
+    heapType = type;
+    heapify();
+}
+
+void PQ::set_CompareCallback(int (*foo)(void *o1, void *o2)) {
+    compare = foo;
+    heapify();
 }
