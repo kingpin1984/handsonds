@@ -29,7 +29,7 @@ void PQ::siftup(unsigned ind) {
     unsigned prefChild;
     if(heapType == MINHEAP) {
         prefChild = (ind%2)?ind:((compare(Q[ind-1], Q[ind])<0)?(ind-1):ind);
-        if(compare(Q[parent], Q[prefChild])>=0) {
+        if(compare(Q[parent], Q[prefChild])>0) {
             void *tmp = Q[parent];
             Q[parent] = Q[prefChild];
             Q[prefChild] = tmp;
@@ -37,7 +37,7 @@ void PQ::siftup(unsigned ind) {
         }
     } else {
         prefChild = (ind%2)?ind:((compare(Q[ind-1], Q[ind])>0)?(ind-1):ind);
-        if(compare(Q[parent], Q[prefChild])<=0) {
+        if(compare(Q[parent], Q[prefChild])<0) {
             void *tmp = Q[parent];
             Q[parent] = Q[prefChild];
             Q[prefChild] = tmp;
@@ -53,7 +53,7 @@ void PQ::siftdown(unsigned ind, unsigned tail) {
 
     if(heapType == MINHEAP) {
         prefChild = (rc>tail)?lc:((compare(Q[lc], Q[rc])<0)?lc:rc);
-        if(compare(Q[ind], Q[prefChild])>=0) {
+        if(compare(Q[ind], Q[prefChild])>0) {
             void *tmp = Q[ind];
             Q[ind] = Q[prefChild];
             Q[prefChild] = tmp;
@@ -61,7 +61,7 @@ void PQ::siftdown(unsigned ind, unsigned tail) {
         }
     } else {
         prefChild = (rc>tail)?lc:((compare(Q[lc], Q[rc])>0)?lc:rc);
-        if(compare(Q[ind], Q[prefChild])<=0) {
+        if(compare(Q[ind], Q[prefChild])<0) {
             void *tmp = Q[ind];
             Q[ind] = Q[prefChild];
             Q[prefChild] = tmp;
